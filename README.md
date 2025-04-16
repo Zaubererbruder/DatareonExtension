@@ -1,6 +1,6 @@
-# Datareon Serialization Fluent
+п»ї# Datareon Serialization Fluent
 
-## Класс MyDataType
+## РљР»Р°СЃСЃ MyDataType
 ```csharp
 public class MyDataType : BaseClass
 {
@@ -12,7 +12,7 @@ public class MyDataType : BaseClass
 }
 ```
 
-## 1. Сериализация
+## 1. РЎРµСЂРёР°Р»РёР·Р°С†РёСЏ
 
 ```csharp
 var data = new MyDataType 
@@ -31,7 +31,7 @@ string json = data.WithDefaultSettings()
                      .WithPropertyName("messageText", "message")
                      .ToJson();
 ```
-Результат:
+Р РµР·СѓР»СЊС‚Р°С‚:
 ```json
 {
   "Id": "a1b2c3d4-1234-5678-9101-112131415161",
@@ -40,12 +40,12 @@ string json = data.WithDefaultSettings()
   "Date": "2023-11-15T14:30:00.1234567Z"
 }
 ```
-WithTypeNameHandling.None - убирает $type из json. Другие варианты: https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_TypeNameHandling.htm
-WithNullValueHandling.Ignore - не выводит null поле в json. Другие варианты: https://www.newtonsoft.com/json/help/html/t_newtonsoft_json_nullvaluehandling.htm
+WithTypeNameHandling.None - СѓР±РёСЂР°РµС‚ $type РёР· json. Р”СЂСѓРіРёРµ РІР°СЂРёР°РЅС‚С‹: https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_TypeNameHandling.htm
+WithNullValueHandling.Ignore - РЅРµ РІС‹РІРѕРґРёС‚ null РїРѕР»Рµ РІ json. Р”СЂСѓРіРёРµ РІР°СЂРёР°РЅС‚С‹: https://www.newtonsoft.com/json/help/html/t_newtonsoft_json_nullvaluehandling.htm
 
-## 2. Десериализация
+## 2. Р”РµСЃРµСЂРёР°Р»РёР·Р°С†РёСЏ
 
-Тело сообщения:
+РўРµР»Рѕ СЃРѕРѕР±С‰РµРЅРёСЏ:
 ```json
 {
   "Id": "b2c3d4e5-2345-6789-1011-121314151617",
@@ -61,7 +61,7 @@ MyDataType result = InitMessage.WithDefaultSettings()
                    .WithPropertyName("messageText", "message")
                    .To<MyDataType>();
 ```
-Результат:
+Р РµР·СѓР»СЊС‚Р°С‚:
 ```
 MyDataType {
   Id: b2c3d4e5-2345-6789-1011-121314151617,
@@ -71,7 +71,7 @@ MyDataType {
 }
 ```
 
-## 3. Использование кастомных настроек (WithCustomSettings)
+## 3. РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РєР°СЃС‚РѕРјРЅС‹С… РЅР°СЃС‚СЂРѕРµРє (WithCustomSettings)
 https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_JsonSerializerSettings.htm
 
 ```csharp
@@ -94,7 +94,7 @@ string json = data.WithCustomSettings(customSettings)
                      .WithPropertyName("CountSmart", "Count")
                      .ToJson();
 ```
-Результат:
+Р РµР·СѓР»СЊС‚Р°С‚:
 ```json
 {"Id":"c3d4e5f6-3456-7891-0111-213141516171","totalCount":7,"Date":"2023-11-17"}
 ```
@@ -103,13 +103,13 @@ string json = data.WithCustomSettings(customSettings)
 ## P.S.
 ```csharp
 string json = data.WithDefaultSettings().ToJson()
-Равносильно
+Р Р°РІРЅРѕСЃРёР»СЊРЅРѕ
 string json = JsonConvert.SerializeObject(data);
 
 ////////////////////////////////////////////////////////////////////////
 
 string json = data.WithCustomSettings(someSettings).ToJson()
-Равносильно
+Р Р°РІРЅРѕСЃРёР»СЊРЅРѕ
 string json = JsonConvert.SerializeObject(data, someSettings);
 
 ////////////////////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ string json = JsonConvert.SerializeObject(data, someSettings);
 string json = data.WithDefaultSettings()
                      .WithTypeNameHandling(TypeNameHandling.None)
                      .WithNullValueHandling(NullValueHandling.Ignore)
-Равносильно
+Р Р°РІРЅРѕСЃРёР»СЊРЅРѕ
 string json = JsonConvert.SerializeObject(data, new JsonSerializerSettings
               {
                 TypeNameHandling = TypeNameHandling.None,
@@ -130,7 +130,7 @@ MyDataType result = InitMessage.WithDefaultSettings()
                    .WithPropertyName("CountSmart", "Count")
                    .WithPropertyName("messageText", "message")
                    .To<MyDataType>();
-Равносильно
+Р Р°РІРЅРѕСЃРёР»СЊРЅРѕ
 var json = InitMessage.GetBodyAsString();
 MyDataType result = JsonConvert.DeserializeObject<MyDataType>(json, new JsonSerializerSettings
                     {
@@ -139,7 +139,7 @@ MyDataType result = JsonConvert.DeserializeObject<MyDataType>(json, new JsonSeri
                                                .MapProperty("messageText", "message")
                                                .Build()
                     })
-Равносильно
+Р Р°РІРЅРѕСЃРёР»СЊРЅРѕ
 var json = InitMessage.GetBodyAsString()
             .Replace("\""Count\":", "\"CountSmart\":");
             .Replace("\"message\":", "\"messageText\":");
